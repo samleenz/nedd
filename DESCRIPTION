@@ -1,0 +1,13 @@
+Package: nedd
+Title: Network Drug Discovery
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Samuel",
+           family = "Lee",
+           role = c("aut", "cre"),
+           email = "samleenz@me.com",
+           comment = c(ORCID = "0000-0002-6805-4051"))
+Description: A collection of tools for network based drug discovery for genes and proteins.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
