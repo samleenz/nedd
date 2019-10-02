@@ -39,3 +39,68 @@ netStats <- function(g, norm = FALSE){
 
   return(tab)
 }
+
+
+#' colourGraphStat
+#'
+#' Given a graph
+#'
+#' @param g the igraph graph you want to analyse
+#' @param nStatFunc a function that returns a node level statistic. Default is
+#'   \code{\link[igraph]{degree}}
+#' @param pal a palette function, should take an integer arguement and return
+#'   a character vector of colours. See \code{\link[grDevices]{colorRamp}}
+#' @param scale Whether to scale the output of the nStatFunc function
+#'
+#' @return a set of colour codes to be assigned to V(g)$colour
+#' @export
+#'
+#' @examples
+makeContCol <- function(
+  g, nStatFunc = igraph::degree, pal =  grDevices::colorRampPalette(viridisLite::viridis(5)), scale = FALSE
+){
+  # take a graph as input
+  # and a function for calculation a node statistic (default is degree)
+  # optionally a colour pallete (5 col viridis default)
+  ###
+  # returns colours to be assigned to V(g)$color
+  nStat <- nStatFunc(g)
+  if(scale == TRUE){
+    nStat <- scale(nStat)
+  }
+
+  cols <- setNames(
+    pal(length(unique(nStat))),
+    sort(unique(as.numeric(nStat)))
+  )
+
+  return(cols[as.character(nStat)])
+}
+
+
+#' Get Subnetwork
+#'
+#' Given an igraph graph and a set of nodes, return the induced subgraph
+#'   with self and multiple edges removed
+#'
+#' @param g an igraph graph object, with \code{$name} node attribute
+#' @param v A character vector of node names
+#'
+#' @return An igraph object
+#' @export
+#'
+#' @examples
+getSubnet <- function(g, v){
+  if(! igraph::is.igraph(g)){
+    stop("g must be an igraph graph object")
+  }
+
+  if(! all(v %in% igraph::V(g)$name)){
+    stop("Not all input nodes are in the graph")
+  }
+
+  g <- igraph::induced_subgraph(g, V(g)[V(g)$name %in% v]) %>%
+    igraph::simplify()
+
+  return(g)
+}
