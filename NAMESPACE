@@ -2,6 +2,7 @@
 
 export("%>%")
 export(g2p)
+export(getLCS)
 export(getSubnet)
 export(makeContCol)
 export(netStats)
