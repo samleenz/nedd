@@ -104,3 +104,38 @@ getSubnet <- function(g, v){
 
   return(g)
 }
+
+
+#' Get largest connected subgraph
+#'
+#' Given an igraph, g, return the largest connected subgraph.
+#'
+#' @param g an igraph graph object
+#'
+#' @return an igraph object
+#' @export
+#'
+#' @examples
+getLCS <- function(g, simplify_g = F){
+
+  if(! igraph::is.igraph(g)){
+    stop("g must be an igraph graph object")
+  }
+  if(igraph::is.directed(g)){
+    stop("This function is only implemented for undirected graphs")
+  }
+
+  clust <- igraph::clusters(g)
+  lcs <- igraph::V(g)[clust$membership == which.max(clust$csize)]
+  lcs <- igraph::induced_subgraph(g, lcs)
+
+  if(isTRUE(simplify_g)){
+    return(
+      igraph::simplify(lcs)
+    )
+  } else {
+    return(
+      lcs
+    )
+  }
+}
