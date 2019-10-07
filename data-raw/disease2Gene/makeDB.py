@@ -76,5 +76,5 @@ def makeDict(text,knowledge,experiments):
 master = makeDict(textMineFile, knowledgeFile, experimentsFile)
 
 # save file to .json in current directory
-json.dump(master,open("disease2ene.json",'w'))
+json.dump(master,open("disease2gene.json",'w'))
 
