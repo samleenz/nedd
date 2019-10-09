@@ -69,7 +69,7 @@ makeContCol <- function(
     nStat <- scale(nStat)
   }
 
-  cols <- setNames(
+  cols <- stats::setNames(
     pal(length(unique(nStat))),
     sort(unique(as.numeric(nStat)))
   )
