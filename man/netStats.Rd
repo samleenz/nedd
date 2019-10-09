@@ -24,6 +24,6 @@ grph <- igraph::barabasi.game(30, directed = FALSE)
 netStats(grph)
 }
 \seealso{
-\code{\link[igraph]{degree}}, \code{\link[igraph]{betweeness}},
+\code{\link[igraph]{degree}}, \code{\link[igraph]{betweenness}},
   \code{\link[igraph]{closeness}}, \code{\link[igraph]{eigen_centrality}}
 }

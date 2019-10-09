@@ -8,6 +8,9 @@ getLCS(g, simplify_g = F)
 }
 \arguments{
 \item{g}{an igraph graph object}
+
+\item{simplify_g}{whether to remove self / multiple edges before returning
+the graph, usually not neccessary.}
 }
 \value{
 an igraph object
