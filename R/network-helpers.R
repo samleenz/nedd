@@ -9,7 +9,7 @@
 #'   For details on what each of these represent see each of the respective \code{igraph} functions.
 #' @export
 #'
-#' @seealso \code{\link[igraph]{degree}}, \code{\link[igraph]{betweeness}},
+#' @seealso \code{\link[igraph]{degree}}, \code{\link[igraph]{betweenness}},
 #'   \code{\link[igraph]{closeness}}, \code{\link[igraph]{eigen_centrality}}
 #'
 #' @examples
@@ -111,6 +111,8 @@ getSubnet <- function(g, v){
 #' Given an igraph, g, return the largest connected subgraph.
 #'
 #' @param g an igraph graph object
+#' @param simplify_g whether to remove self / multiple edges before returning
+#'   the graph, usually not neccessary.
 #'
 #' @return an igraph object
 #' @export
