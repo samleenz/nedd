@@ -13,5 +13,7 @@ g2p(g)
 a character vector of human uniprot ids
 }
 \description{
-Given a vector of gene names return matching proteins names, or NA if no match
+Given a vector of gene names return matching uniprot protein names, or NA if no match.
+In the case of mutliple gene -> protein matches the protein name with the highest score
+from `Uniprot.ws` will be kept.
 }
