@@ -11,3 +11,4 @@ test_that("norm is a logical", {
     "norm must be a logical"
   )
 })
+
