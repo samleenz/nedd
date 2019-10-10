@@ -62,3 +62,37 @@ hnet_prepare <- function(g, out_dir = getwd()){
 
 
 }
+
+
+#' Hnet read results
+#'
+#' Read the results file from Hierarchical Hotnet
+#'
+#' @param file Path to the results file
+#' @param first_clust Logical, whether to return the first (largest) cluster
+#'  or all of them.
+#'
+#' @return If `first_clust == TRUE` then a vector containing the uniprot IDs of the largest cluster from the Hierarchical Hotnet
+#'
+#'   If `first_clust == FALSE` then a list containing a vector of uniprot IDs for each cluster returned in descending order of size
+#' @export
+#'
+#' @examples
+hnet_read_results <- function(file, first_clust = TRUE){
+  # checks
+  if(! file.exists(file)){
+    stop("The input file does not exist!")
+  }
+  fle <- readr::read_lines(file, n_max = 7)
+  if(! all(startsWith(fle, "#"))){ # check valid file type
+    stop("Are you sure this file is a valid results file? First 7 lines don't look right")
+  }
+
+  # body
+  fle <- readr::read_lines(file, skip = 7)
+  if(isTRUE(first_clust)){
+    return(sapply(fle, stringr::str_split, pattern = "\\\t", USE.NAMES = FALSE)[[1]])
+  } else {
+    return(sapply(fle, stringr::str_split, pattern = "\\\t", USE.NAMES = FALSE))
+  }
+}
