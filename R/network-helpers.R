@@ -141,3 +141,24 @@ getLCS <- function(g, simplify_g = F){
     )
   }
 }
+
+#' v2e
+#'
+#' Vertex to edge: reloaded
+#'
+#' Transform a vertex-weighted undirected graph to an edge weighted graph
+#'
+#' @param g an igraph graph object
+#' @param w Numerical vector of vertex weights
+#'
+#' @return an edge weighted graph with nodes as per \code{g}
+#' @export
+#'
+#' @examples
+v2e <- function(g, w){
+  # checks
+  if(! igraph::is.igraph(g)){
+    stop("g must be an igraph graph object")
+  }
+  ## w is length vcount(g)
+}
