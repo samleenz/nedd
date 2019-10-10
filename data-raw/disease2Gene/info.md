@@ -8,7 +8,7 @@ Source refers to the source of the information. FOr text this is simply just "te
 
 Confidence is out of 5 and consistent across all types
  
-Input must be 3 .tsv files obtained from https://diseases.jensenlab.org/Downloads (USE FILTERED VERSIONS)
+Input must be 3 .tsv files obtained from 3 (USE FILTERED VERSIONS)
  
 Output .json saved as "disease2gene.json" in current directory
 
