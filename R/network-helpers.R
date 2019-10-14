@@ -99,7 +99,7 @@ getSubnet <- function(g, v){
     stop("Not all input nodes are in the graph")
   }
 
-  g <- igraph::induced_subgraph(g, V(g)[V(g)$name %in% v]) %>%
+  g <- igraph::induced_subgraph(g, igraph::V(g)[igraph::V(g)$name %in% v]) %>%
     igraph::simplify()
 
   return(g)
@@ -152,7 +152,7 @@ getLCS <- function(g, simplify_g = F){
 #' @param method See details ~~to write~~
 #' @param w Numerical vector of vertex weights
 #'
-#' @return A vector of edge weights for the graph \code{g}
+#' @return the graph \code{g} with weighted edges
 #' @export
 #'
 #' @examples
@@ -174,11 +174,16 @@ v2e <- function(g, method, w = NULL){
 
   # call internal method
   if(method == "vSum"){
-    edge_weight <- .v2e_vSum(g, w)
+    # edge_weight <- .v2e_vSum(g, w)
+    g_new <- .v2e_vSum(g, w)
+  } else if(method == "vMax"){
+    g_new <- .v2e_vMax(g, w)
+  } else if(method == "directed"){
+    g_new <- .v2e_directed(g, w)
   }
 
 
-  return(edge_weight)
+  return(g_new)
 }
 
 #' Sum vertex weights over edges
@@ -202,5 +207,55 @@ v2e <- function(g, method, w = NULL){
     function(x) sum(igraph::vertex_attr(g, "w1", igraph::V(g)[x]))
   )
 
-  return(e_weight)
+  igraph::E(g)$weight <- e_weight
+  igraph::remove.vertex.attribute(g, "w1")
+  return(g)
+}
+
+#' max of vertex weights over edges
+#'
+#' internal for v2e.
+#'
+#' @param g graph
+#' @param w vertex weights
+#'
+#' @return
+#'
+#' @examples
+.v2e_vMax <- function(g, w){
+  igraph::V(g)$w1 <- w
+
+  e_pairs <- igraph::ends(g, igraph::E(g))
+
+  e_weight <- apply(
+    e_pairs,
+    1,
+    function(x) max(igraph::vertex_attr(g, "w1", igraph::V(g)[x]))
+  )
+
+  igraph::E(g)$weight <- e_weight
+  igraph::remove.vertex.attribute(g, "w1")
+  return(g)
+}
+
+#' Incoming directed weights
+#'
+#' internal for v2e
+#'
+#' @param g graph
+#' @param w vertex weights
+#'
+#' @return
+#'
+#' @examples
+.v2e_directed <- function(g, w){
+  igraph::V(g)$w1 <- w
+
+  g <- igraph::as.directed(g, "mutual")
+
+  e_weight <- igraph::vertex_attr(g, "w1", igraph::head_of(g, igraph::E(g)))
+
+  igraph::E(g)$weight <- e_weight
+  igraph::remove.vertex.attribute(g, "w1")
+  return(g)
 }
