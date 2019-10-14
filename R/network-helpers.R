@@ -149,16 +149,58 @@ getLCS <- function(g, simplify_g = F){
 #' Transform a vertex-weighted undirected graph to an edge weighted graph
 #'
 #' @param g an igraph graph object
+#' @param method See details ~~to write~~
 #' @param w Numerical vector of vertex weights
 #'
-#' @return an edge weighted graph with nodes as per \code{g}
+#' @return A vector of edge weights for the graph \code{g}
 #' @export
 #'
 #' @examples
-v2e <- function(g, w){
+v2e <- function(g, method, w = NULL){
+  if(is.null(w)){
+    w <- igraph::V(g)$weight
+  }
   # checks
   if(! igraph::is.igraph(g)){
     stop("g must be an igraph graph object")
   }
   ## w is length vcount(g)
+
+  ## method is a valid option
+
+  ## weights are numeric
+
+  # ---
+
+  # call internal method
+  if(method == "vSum"){
+    edge_weight <- .v2e_vSum(g, w)
+  }
+
+
+  return(edge_weight)
+}
+
+#' Sum vertex weights over edges
+#'
+#' internal for v2e.
+#'
+#' @param g graph
+#' @param w vertex weights
+#'
+#' @return
+#'
+#' @examples
+.v2e_vSum <- function(g, w){
+  igraph::V(g)$w1 <- w
+
+  e_pairs <- igraph::ends(g, igraph::E(g))
+
+  e_weight <- apply(
+    e_pairs,
+    1,
+    function(x) sum(igraph::vertex_attr(g, "w1", igraph::V(g)[x]))
+  )
+
+  return(e_weight)
 }
