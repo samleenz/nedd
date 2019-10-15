@@ -15,5 +15,7 @@
 
 }
 \description{
-internal for v2e.
+internal for v2e. Takes a graph and vertex weights as input.
+For each edge in the graph the weight is defined as the sum of the
+weights of the two adjacent vertices
 }

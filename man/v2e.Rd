@@ -9,7 +9,7 @@ v2e(g, method, w = NULL)
 \arguments{
 \item{g}{an igraph graph object}
 
-\item{method}{See details ~~to write~~}
+\item{method}{Character, one of \{X,Y,Z\}}
 
 \item{w}{Numerical vector of vertex weights}
 }
@@ -20,5 +20,12 @@ the graph \code{g} with weighted edges
 Vertex to edge: reloaded
 }
 \details{
-Transform a vertex-weighted undirected graph to an edge weighted graph
+Transform a vertex-weighted undirected graph to an edge weighted graph.
+
+Different approaches to transform weights are:
+\itemize{
+  \item{\code{vSum} -- blah}
+  \item{\code{vMax} -- blah}
+  \item{\code{directed} -- blah}
+}
 }

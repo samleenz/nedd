@@ -15,5 +15,9 @@
 
 }
 \description{
-internal for v2e
+internal for v2e. Takes a graph and vertex weights as input.
+Each edge in the graph is replaced by mutual directed edges, that is:
+the edge \code{A:-:B} becomes the edges \code{A:->:B} and \code{A:<-:B}
+The weight of the vertex at the head of each edge then
+becomes the edge weight.
 }
