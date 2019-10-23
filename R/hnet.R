@@ -5,7 +5,7 @@
 #' @param g The PPI graph to be used, as an igraph object
 #' @param out_dir where to save the graph files, default is `getwd()`
 #'
-#' @return
+#' @return returns `NULL`, writes the gene index and indexed edge lists to files in directory specified by `out_dir`
 #' @export
 #'
 #' @examples
