@@ -16,7 +16,7 @@ cores = 4 #set cores to utilise for druggability estimation
 
 proteinUnionFile = "nedd_3graph_protein_union.txt" #file containing union of all proteins
 
-updateDisrupt = False #update citations before making new disrupt score
+updateDisrupt = True #update citations before making new disrupt score
 updateDruggability = True #update sequence identities and estimate druggability of new models
 updateDisease2Gene = False #set to True if new files have been manually downloaded and added to the directory
 updateProteinNames = False #only set to True if new uniprot file has been manually downloaded and added to directory
