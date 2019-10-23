@@ -43,7 +43,7 @@ if updateProteinNames:
 
 if updateDruggability:
     print("Updating sequence identities from SwissModel...")
-    #mineStructures(proteinUnionFile)
+    mineStructures(proteinUnionFile)
     print("Downloading Models and estimating druggability...")
     updateModels(cores)
 
