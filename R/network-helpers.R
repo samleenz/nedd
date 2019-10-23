@@ -146,10 +146,18 @@ getLCS <- function(g, simplify_g = F){
 #'
 #' Vertex to edge: reloaded
 #'
-#' Transform a vertex-weighted undirected graph to an edge weighted graph
+#' Transform a vertex-weighted undirected graph to an edge weighted graph.
+#'
+#' Different approaches to transform weights are:
+#' \itemize{
+#'   \item{\code{vSum} -- blah}
+#'   \item{\code{vMax} -- blah}
+#'   \item{\code{directed} -- blah}
+#' }
+#'
 #'
 #' @param g an igraph graph object
-#' @param method See details ~~to write~~
+#' @param method Character, one of \{X,Y,Z\}
 #' @param w Numerical vector of vertex weights
 #'
 #' @return the graph \code{g} with weighted edges
@@ -188,7 +196,9 @@ v2e <- function(g, method, w = NULL){
 
 #' Sum vertex weights over edges
 #'
-#' internal for v2e.
+#' internal for v2e. Takes a graph and vertex weights as input.
+#' For each edge in the graph the weight is defined as the sum of the
+#' weights of the two adjacent vertices
 #'
 #' @param g graph
 #' @param w vertex weights
@@ -208,13 +218,15 @@ v2e <- function(g, method, w = NULL){
   )
 
   igraph::E(g)$weight <- e_weight
-  igraph::remove.vertex.attribute(g, "w1")
+  g <- igraph::remove.vertex.attribute(g, "w1")
   return(g)
 }
 
 #' max of vertex weights over edges
 #'
-#' internal for v2e.
+#' internal for v2e. Takes a graph and vertex weights as input.
+#' For each edge in the graph the weight is defined as the sum of the
+#' weights of the two adjacent vertices
 #'
 #' @param g graph
 #' @param w vertex weights
@@ -234,13 +246,17 @@ v2e <- function(g, method, w = NULL){
   )
 
   igraph::E(g)$weight <- e_weight
-  igraph::remove.vertex.attribute(g, "w1")
+  g <- igraph::remove.vertex.attribute(g, "w1")
   return(g)
 }
 
 #' Incoming directed weights
 #'
-#' internal for v2e
+#' internal for v2e. Takes a graph and vertex weights as input.
+#' Each edge in the graph is replaced by mutual directed edges, that is:
+#' the edge \code{A:-:B} becomes the edges \code{A:->:B} and \code{A:<-:B}
+#' The weight of the vertex at the head of each edge then
+#' becomes the edge weight.
 #'
 #' @param g graph
 #' @param w vertex weights
@@ -253,9 +269,10 @@ v2e <- function(g, method, w = NULL){
 
   g <- igraph::as.directed(g, "mutual")
 
+  # for each edge find the head vertex, then extract the weight
   e_weight <- igraph::vertex_attr(g, "w1", igraph::head_of(g, igraph::E(g)))
 
   igraph::E(g)$weight <- e_weight
-  igraph::remove.vertex.attribute(g, "w1")
+  g <-  igraph::remove.vertex.attribute(g, "w1")
   return(g)
 }
