@@ -7,8 +7,8 @@ import xmltodict
 def postProtList(prots):
     #initialise hard code variables
     protStr = ",".join(prots)
-    apiKey = "71d9e183e47693926dd1673d407f5bad0608"
-    emailAddr = "nwilliams@svi.edu.au"
+    apiKey = "71d9e183e47693926dd1673d407f5bad0608" #add your api key here
+    emailAddr = "nwilliams@svi.edu.au" #add your email here
     data = {'db': 'protein', 'id': protStr, 'retmode': 'xml', 'email': emailAddr, "api_key": apiKey}
     url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
     store = {}
