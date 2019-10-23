@@ -4,13 +4,21 @@
 # Description: Script to automatically update all specified nedd databases
 
 #imports
+from disruptScore.makeDisruptScore import makeAllDisrupts
+from disruptScore.citationScore.citationMine import citeMine
+from disease2Gene.makeD2G import makeD2G
+from uniprot2proteinName.protNameMapMake import nameMapMake
+from structure.fPocket.modelDownloader import updateModels
+from structure.structureIdentity.structureMine import mineStructures
 
 #configuration
 cores = 4 #set cores to utilise for druggability estimation
 
-updateDisrupt = True #update citations before making new disrupt score
+proteinUnionFile = "nedd_3graph_protein_union.txt" #file containing union of all proteins
+
+updateDisrupt = False #update citations before making new disrupt score
 updateDruggability = True #update sequence identities and estimate druggability of new models
-updateDisease2Gene = False #only set to True if new files have been manually downloaded and added to the directory
+updateDisease2Gene = False #set to True if new files have been manually downloaded and added to the directory
 updateProteinNames = False #only set to True if new uniprot file has been manually downloaded and added to directory
 
 #############################################################################################
@@ -18,3 +26,25 @@ updateProteinNames = False #only set to True if new uniprot file has been manual
 #############################################################################################
 #Mine citations and make new disrupt score with stored betweenness scores
 if updateDisrupt:
+    print("Updating citations for all proteins...")
+    citeMine("nedd_3graph_protein_union.txt")
+    print("Updating Disrupt Score...")
+    makeAllDisrupts(proteinUnionFile)
+
+#update disease2gene database
+if updateDisease2Gene:
+    print("Updating disease to gene from file...")
+    makeD2G()
+
+#update protein name database
+if updateProteinNames:
+    print("Updating protein name map...")
+    nameMapMake()
+
+if updateDruggability:
+    print("Updating sequence identities from SwissModel...")
+    #mineStructures(proteinUnionFile)
+    print("Downloading Models and estimating druggability...")
+    updateModels(cores)
+
+print("Update Complete!")

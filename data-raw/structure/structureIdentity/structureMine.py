@@ -69,18 +69,15 @@ def threaded_process_range(id_range, nthreads = 1):
     [ t.join() for t in threads ]
     return store
 
-def mineStructures(proteinFile, threads = 4):
-    print("Program Start \n")
+def mineStructures(proteinFile, threads = 40):
     #import all proteins into list and create a dict
     pList = open(proteinFile).read().splitlines()
 
     result = threaded_process_range(pList,threads)
 
     #write to file
-    json.dump(result, open("structureIdentities.json", 'w'))
+    json.dump(result, open("./structure/structureIdentity/structureIdentities.json", 'w'))
 
-    print("\nFinished: Dict saved to .json file")
     return result
 
-dic = mineStructures("../nedd_3graph_protein_union.txt",40)
 

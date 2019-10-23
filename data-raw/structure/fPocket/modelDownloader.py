@@ -6,7 +6,7 @@ import shutil
 
 def process_id(p,models):
     # process a single ID
-    out = os.path.abspath("structures/")
+    out = "./structure/fPocket/structures/"
     pdbURL = "https://files.rcsb.org/download/"  # + "4hhb.pdb"
     swissURL = "https://swissmodel.expasy.org/repository/uniprot/"  # + "P07900.pdb"
 
@@ -67,16 +67,13 @@ def downloadUpdates(old, new, threads = 30):
 
     #download over N threads
     output = threaded_process_range(list(toDo.keys()), toDo, threads)
-
-    json.dump(output, open("output.json",'w'))
-
     return output
 
 def process_models(targets):
     for x in targets:
         print(x + " ", end='')
         print(str(get_ident()))
-        os.system('fpocket -f ./structures/' + str(x).upper() + '.pdb')
+        os.system('fpocket -f ./structure/fPocket/structures/' + str(x).upper() + '.pdb')
 
 def fPock(targets, nthreads):
     threads = []
@@ -91,12 +88,12 @@ def fPock(targets, nthreads):
     [t.join() for t in threads]
 
 def extractDruggabiliy():
-    curr = os.path.abspath("structures/")
+    curr = os.path.abspath("structure/fPocket/structures/")
     resDict = {}
 
     for filename in os.listdir(curr):
         if (filename.endswith("_out")):
-            txt = os.path.abspath("structures/" + filename + '/' + filename[:-4] + '_info.txt')
+            txt = os.path.abspath("structure/fPocket/structures/" + filename + '/' + filename[:-4] + '_info.txt')
             txtLs = open(txt, 'r').read().splitlines()
             drugScores = []
             for line in txtLs:
@@ -109,7 +106,7 @@ def extractDruggabiliy():
                 resDict[filename[:-4]] = 0
 
     #delete all models
-    folder = './structures/'
+    folder = './structure/fPocket/structures/'
     for the_file in os.listdir(folder):
         file_path = os.path.join(folder, the_file)
         try:
@@ -122,9 +119,9 @@ def extractDruggabiliy():
     return resDict
 
 def compileMaster(drugResults, updates):
-    identities = json.load(open("../structureIdentity/structureIdentities.json",'r'))
-    json.dump(identities,open("currentModels.json",'w')) #update
-    master = json.load(open("../singleProtStats.json","r"))
+    identities = json.load(open("./structure/structureIdentity/structureIdentities.json",'r'))
+    json.dump(identities,open("./structure/fPocket/structures/currentModels.json",'w')) #update
+    master = json.load(open("./structure/singleProtStats.json","r"))
 
     for prot in updates:
         if(prot not in master):
@@ -136,36 +133,32 @@ def compileMaster(drugResults, updates):
             master[prot]["druggability"] = False
         master[prot]["identity"] = identities[prot]["identity"]
 
-    json.dump(master,open("../singleProtStats.json","w"))
+    json.dump(master,open("./structure/singleProtStats.json","w"))
     return master
 
 
+def updateModels(cores):
+    curr = json.load(open("./structure/fPocket/currentModels.json",'r'))
+    new = json.load(open("./structure/structureIdentity/structureIdentities.json",'r'))
 
-curr = json.load(open("currentModels.json",'r'))
-new = json.load(open("../structureIdentity/structureIdentities.json",'r'))
+    out = downloadUpdates(curr,new)
 
-print("begin")
+    fPockTargets = [x for x in out if out[x]]
 
-out = downloadUpdates(curr,new)
+    fPock(fPockTargets, cores)
 
-fPockTargets = [x for x in out if out[x]]
+    druggability = extractDruggabiliy()
 
-fPock(fPockTargets, 4)
-
-druggability = extractDruggabiliy()
-
-updates = []
-
-
-for x in new:
-    if (x in curr):
-        if(new[x]["identity"] > curr[x]["identity"]):
+    #find updates
+    updates = []
+    for x in new:
+        if (x in curr):
+            if(new[x]["identity"] > curr[x]["identity"]):
+                updates.append(x)
+        else:
             updates.append(x)
-    else:
-        updates.append(x)
 
-#compileMaster
-compileMaster(druggability, updates)
+    #compileMaster
+    compileMaster(druggability, updates)
 
-print("program complete")
 

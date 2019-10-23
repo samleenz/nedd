@@ -44,7 +44,6 @@ def chunks(l, n):
 
 def citeMine(fileName):
     nSize = 100
-
     ProtIds = idListRead(fileName)
 
     pChunk = list(chunks(ProtIds,nSize))
@@ -62,8 +61,3 @@ def citeMine(fileName):
     json.dump(master,open("proteinCitations.json","w"))
 
     return master
-
-print("Program Start")
-dic = citeMine("../../nedd_3graph_protein_union.txt")
-print(dic)
-

@@ -3,9 +3,9 @@ import json
 import difflib
 
 #change these to updated files when necessary
-textMineFile = "human_disease_textmining_filtered.tsv"
-knowledgeFile = "human_disease_knowledge_filtered.tsv"
-experimentsFile = "human_disease_experiments_filtered.tsv"
+textMineFile = "./disease2Gene/human_disease_textmining_filtered.tsv"
+knowledgeFile = "./disease2Gene/human_disease_knowledge_filtered.tsv"
+experimentsFile = "./disease2Gene/human_disease_experiments_filtered.tsv"
 
 # Generates list of diseases in dictionary close to input query
 # Input: Search query (str), disease dict from makeDict(), maximum search results to output (default 3)
@@ -72,9 +72,10 @@ def makeDict(text,knowledge,experiments):
     #return the processed dictionary
     return dic
 
-# Create central dict
-master = makeDict(textMineFile, knowledgeFile, experimentsFile)
+def makeD2G():
+    # Create central dict
+    master = makeDict(textMineFile, knowledgeFile, experimentsFile)
 
-# save file to .json in current directory
-json.dump(master,open("disease2gene.json",'w'))
+    # save file to .json in current directory
+    json.dump(master,open("./disease2Gene/disease2gene.json",'w'))
 

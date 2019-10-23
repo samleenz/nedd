@@ -26,7 +26,7 @@ def rescale(dic):
 
 def cDict():
     #returns dict with normalised citations between 0-1
-    rawCites = json.load(open("./citationScore/proteinCitations.json",'r'))
+    rawCites = json.load(open("./disruptScore/citationScore/proteinCitations.json",'r'))
 
     #redefine citations in rank order
     r = {key: rank for rank, key in enumerate(sorted(set(rawCites.values()), reverse=True), 1)}
@@ -39,7 +39,7 @@ def cDict():
 #input JUST the name of the graph e.g. "ascher", "huri" or "STRING"
 def makeDisrupt(graphName):
     #load betweenness
-    between = json.load(open("./betweennessScore/" + graphName + "_rawBetween.json",'r'))
+    between = json.load(open("./disruptScore/betweennessScore/" + graphName + "_rawBetween.json",'r'))
     between = dictStand(between) #standardize
 
     cites = cDict() #load citations
@@ -48,13 +48,15 @@ def makeDisrupt(graphName):
     for prot in between:
         new[prot] = between[prot] * cites[prot]
     #dump
-    json.dump(new,open(graphName + "_disrupt.json","w"))
+    json.dump(new,open("./disruptScore/" + graphName + "_disrupt.json","w"))
 
     return new
 
-makeDisrupt("ascher")
-makeDisrupt("huri")
-makeDisrupt("STRING")
+def makeAllDisrupts():
+    makeDisrupt("ascher")
+    makeDisrupt("huri")
+    makeDisrupt("STRING")
+
 
 
 
