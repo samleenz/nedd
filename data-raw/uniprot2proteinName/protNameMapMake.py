@@ -15,10 +15,10 @@ def id2name(filename):
 
     return dic
 
+# Convenience function to create name Map
 def nameMapMake():
-# Call function to retrieve dictionaru
     file = "./uniprot2proteinName/uniprot-IDS.tab" #change to name of input file to update
-    master = id2name(file)
+    master = id2name(file) #retrieve ID-Name Dictionary
 
     # Save file to .json in current directory
     json.dump(master, open("./uniprot2proteinName/uniprot2name.json",'w'))

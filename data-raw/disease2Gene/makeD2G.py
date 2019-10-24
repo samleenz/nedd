@@ -72,6 +72,7 @@ def makeDict(text,knowledge,experiments):
     #return the processed dictionary
     return dic
 
+#convenience function to make disease2Gene database
 def makeD2G():
     # Create central dict
     master = makeDict(textMineFile, knowledgeFile, experimentsFile)
