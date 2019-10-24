@@ -27,9 +27,9 @@ updateProteinNames = False #only set to True if new uniprot file has been manual
 #Mine citations and make new disrupt score with stored betweenness scores
 if updateDisrupt:
     print("Updating citations for all proteins...")
-    citeMine("nedd_3graph_protein_union.txt")
+    citeMine(proteinUnionFile)
     print("Updating Disrupt Score...")
-    makeAllDisrupts(proteinUnionFile)
+    makeAllDisrupts()
 
 #update disease2gene database
 if updateDisease2Gene:
