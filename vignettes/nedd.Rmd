@@ -1,0 +1,46 @@
+---
+title: "nedd"
+author: "Sam Lee"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{nedd}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Welcome to our package, take a seat. Let me show you around. The purpose of this document is to give an overview of how to use the functions contained within `nedd` and also to highlight which other packages and functions we commonly use.
+
+## Using `nedd`
+
+```{r setup}
+library(nedd)
+```
+
+
+## Other packages
+
+Here be other packages and functions we may commonly want to use.
+
+### Mapping between feature identifiers
+
+ENSG ID to UNIPROT ID
+
+```{r}
+ensg <- c(
+  "ENSG00000127080", "ENSG00000149930", "ENSG00000156711", "ENSG00000170464"
+  )
+
+uniprot <- gprofiler2::gconvert(ensg, target = "UNIPROTSWISSPROT") %>%
+  dplyr::arrange(input_number)
+
+uniprot
+
+```
