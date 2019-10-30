@@ -44,3 +44,49 @@ uniprot <- gprofiler2::gconvert(ensg, target = "UNIPROTSWISSPROT") %>%
 uniprot
 
 ```
+
+### Heat diffusion over a graph
+
+This code actually simulates a random walk of sorts but conceptually same same.. 
+
+```{r}
+library(igraph)
+
+# create a random graph with 20 nodes, and P(edge) = 0.15
+g <- sample_gnp(20, 0.15)
+V(g)$name <- letters[1:20]
+
+
+# create a vector of scores to diffuse over our nodes
+# sample from Bernoulli dist with P(success) = 0.25
+scores <- matrix(
+  rbinom(20, 1, 0.25),
+  dimnames = list(letters[1:20], "score"),
+  ncol = 1
+  )
+
+l <- layout_nicely(g)
+
+plot(g,
+     vertex.size = ifelse(scores == 1, 10, 5),
+     vertex.color = diffuStats::scores2colours(scores),
+     vertex.label = NA,
+     asp = 0,
+     layout = l
+     )
+
+diffused <- diffuStats::diffuse(
+  graph = g,
+  method = "ber_p",
+  scores = scores
+  )
+
+plot(g,
+     vertex.size = ifelse(scores == 1, 10, 5),
+     vertex.color = diffuStats::scores2colours(diffused),
+     vertex.label = NA,
+     asp = 0,
+     layout = l
+     )
+
+```
