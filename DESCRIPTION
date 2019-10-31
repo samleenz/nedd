@@ -16,7 +16,9 @@ Suggests:
     STRINGdb,
     gprofiler2,
     knitr,
-    rmarkdown
+    rmarkdown,
+    diffuStats,
+    dplyr
 RoxygenNote: 6.1.1
 Imports: 
     igraph,
