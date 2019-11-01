@@ -14,10 +14,15 @@ LazyData: true
 Suggests: 
     testthat (>= 2.1.0),
     STRINGdb,
-    gprofiler2
+    gprofiler2,
+    knitr,
+    rmarkdown,
+    diffuStats,
+    dplyr
 RoxygenNote: 6.1.1
 Imports: 
     igraph,
     magrittr,
     readr,
     stringr
+VignetteBuilder: knitr

@@ -11,6 +11,9 @@ hnet_prepare(g, out_dir = getwd())
 
 \item{out_dir}{where to save the graph files, default is `getwd()`}
 }
+\value{
+returns `NULL`, writes the gene index and indexed edge lists to files in directory specified by `out_dir`
+}
 \description{
 Prepare a PPI graph for use with Hierarchical Hotnet
 }
