@@ -1,6 +1,8 @@
 import csv
 import json
 import difflib
+import pandas as pd
+import feather
 
 #change these to updated files when necessary
 textMineFile = "./disease2Gene/human_disease_textmining_filtered.tsv"
@@ -77,6 +79,14 @@ def makeD2G():
     # Create central dict
     master = makeDict(textMineFile, knowledgeFile, experimentsFile)
 
-    # save file to .json in current directory
-    json.dump(master,open("./disease2Gene/disease2gene.json",'w'))
+    data = []
+    for d in master:
+        for gene in master[d]:
+            data.append([d,gene,master[d][gene]["type"],master[d][gene]["source"],master[d][gene]["confidence"]])
+
+    df = pd.DataFrame(data, columns=['Disease','Gene','Type','Source','Confidence'])
+
+    # save file to .feather file in current directory
+    df.to_feather("./disease2Gene/disease2gene.feather")
+
 

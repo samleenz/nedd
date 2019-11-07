@@ -10,6 +10,6 @@ Confidence is out of 5 and consistent across all types
  
 Input must be 3 .tsv files obtained from 3 (USE FILTERED VERSIONS)
  
-Output .json saved as "disease2gene.json" in current directory
+Output .feather saved as "disease2gene.feather" in current directory
 
 Bonus Search function also provided but not used (for future applications)
