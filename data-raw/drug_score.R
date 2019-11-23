@@ -8,4 +8,4 @@ drug_score <- json %>%
   dplyr::select(-identity)
 
 
-usethis::use_data("drug_score")
+usethis::use_data(drug_score)

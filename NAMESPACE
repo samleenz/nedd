@@ -3,6 +3,7 @@
 export("%>%")
 export(filterScores)
 export(g2p)
+export(getDrugScore)
 export(getLCS)
 export(getSubnet)
 export(hnet_prepare)

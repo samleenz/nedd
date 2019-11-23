@@ -40,3 +40,12 @@
 #' @source \url{https://string-db.org/} for details
 "STRING_graph"
 
+#' drug potential scores
+#'
+#' @format
+#' \describe{
+#'   \item{name}{uniprotswissprot}
+#'   \item{druggability}{Fpocket}
+#' }
+
+"drug_score"
