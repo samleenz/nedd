@@ -64,3 +64,26 @@ filterScores <- function(s, g){
 
   p <- igraph::V(g)$name
 }
+
+
+
+#' getDrugScore
+#'
+#' given a vector of protein names return
+#' the druggability scores as a vector
+#'
+#' @param v character vector of uniprot IDs
+#'
+#' @return vector of druggability scores, NA if the score is missing
+#' @export
+#'
+#' @examples
+getDrugScore <- function(v) {
+
+  # check if names are in drug table
+
+  # join drug table and names
+
+  # return scores
+
+}
