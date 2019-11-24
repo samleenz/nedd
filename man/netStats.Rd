@@ -4,23 +4,29 @@
 \alias{netStats}
 \title{Network statistics}
 \usage{
-netStats(g, norm = FALSE)
+netStats(g, norm = FALSE, named = NULL)
 }
 \arguments{
 \item{g}{the igraph graph you want to analyse}
 
 \item{norm}{Whether to normalise the scores to between 0 and 1}
+
+\item{named}{are graph vertices named? If true F-pocket drug score will be included
+in the table}
 }
 \value{
-A data.frame with four columns: \code{c(degree, betweeness, closeness, eigen_centrality)}.
+A data.frame with four or five columns: \code{c(degree, betweeness, closeness, eigen_centrality, maybe(drug_score))}.
   For details on what each of these represent see each of the respective \code{igraph} functions.
 }
 \description{
-Given an \code{igraph} graph object return a table with vertex statistics
+Given an \code{igraph} graph object return a table with vertex statistics.
+If the graph is names (or `named` is `TRUE`) F-pocket druggability statistics
+are returned too
 }
 \examples{
 # a graph
 grph <- igraph::barabasi.game(30, directed = FALSE)
+igraph::V(grph)$name <- c(letters, LETTERS[1:4])
 netStats(grph)
 }
 \seealso{

@@ -1,11 +1,15 @@
 #' Network statistics
 #'
-#' Given an \code{igraph} graph object return a table with vertex statistics
+#' Given an \code{igraph} graph object return a table with vertex statistics.
+#' If the graph is names (or `named` is `TRUE`) F-pocket druggability statistics
+#' are returned too
 #'
 #' @param g the igraph graph you want to analyse
 #' @param norm Whether to normalise the scores to between 0 and 1
+#' @param named are graph vertices named? If true F-pocket drug score will be included
+#'   in the table
 #'
-#' @return A data.frame with four columns: \code{c(degree, betweeness, closeness, eigen_centrality)}.
+#' @return A data.frame with four or five columns: \code{c(degree, betweeness, closeness, eigen_centrality, maybe(drug_score))}.
 #'   For details on what each of these represent see each of the respective \code{igraph} functions.
 #' @export
 #'
@@ -15,8 +19,9 @@
 #' @examples
 #' # a graph
 #' grph <- igraph::barabasi.game(30, directed = FALSE)
+#' igraph::V(grph)$name <- c(letters, LETTERS[1:4])
 #' netStats(grph)
-netStats <- function(g, norm = FALSE){
+netStats <- function(g, norm = FALSE, named = NULL){
   # checks
 
   # check g is an igraph object
@@ -29,6 +34,15 @@ netStats <- function(g, norm = FALSE){
     stop("norm must be a logical (default false)")
   }
 
+  # set value of named
+  if(is.null(named)){
+    named <- ifelse(
+      igraph::is_named(g),
+      TRUE,
+      FALSE
+      )
+  }
+
   # body
   tab <- data.frame(
     "degree" = igraph::degree(g, normalized = norm),
@@ -37,6 +51,12 @@ netStats <- function(g, norm = FALSE){
     "eigen_centrality" = igraph::eigen_centrality(g)$vector
   )
 
+  if(isTRUE(named)){
+    tab <- cbind(
+      tab,
+      "drug_score" = nedd::getDrugScore(igraph::V(g)$name)
+    )
+  }
   return(tab)
 }
 
