@@ -81,9 +81,20 @@ filterScores <- function(s, g){
 getDrugScore <- function(v) {
 
   # check if names are in drug table
+  if(0 == sum(v %in% drug_score$name)) {
+    warning("names are not in the drug score table, vector of NAs returned")
+    return(rep(NA, length(v)))
+  } else{
+    message(paste(
+      scales::percent(sum(v %in% drug_score$name) / length(v), accuracy = 3),
+      "of input names are in the drug score table"
+    ))
+  }
 
   # join drug table and names
+  suppressMessages(scores <- dplyr::left_join(tibble::tibble(name = v), drug_score))
 
   # return scores
+  return(scores$druggability)
 
 }
