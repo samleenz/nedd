@@ -32,3 +32,10 @@ test_that("Returned values are numeric", {
     ))
   )
 })
+
+test_that("Edge weights are sensible", {
+  expect_error(
+    netStats(igraph::set_edge_attr(g, "weight", value = rep(-5, igraph::ecount(g)))),
+    "edge weights must be > 0 if supplied"
+  )
+})

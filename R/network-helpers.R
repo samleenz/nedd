@@ -34,6 +34,11 @@ netStats <- function(g, norm = FALSE, named = NULL){
     stop("norm must be a logical (default false)")
   }
 
+  # check whether vertex weights are NuLL or > 0
+  if(! (is.null(igraph::E(g)$weight) | all(igraph::E(g)$weight > 0))) {
+    stop("edge weights must be > 0 if supplied")
+  }
+
   # set value of named
   if(is.null(named)){
     named <- ifelse(
