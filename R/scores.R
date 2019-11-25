@@ -79,6 +79,10 @@ filterScores <- function(s, g){
 #'
 #' @examples
 getDrugScore <- function(v) {
+  #checks
+  if(! is.character(v)){
+    stop("v must be a character vector")
+  }
 
   # check if names are in drug table
   if(0 == sum(v %in% drug_score$name)) {
