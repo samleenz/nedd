@@ -26,5 +26,6 @@ Imports:
     readr,
     stringr,
     tibble,
-    scales
+    scales,
+    matrixStats
 VignetteBuilder: knitr

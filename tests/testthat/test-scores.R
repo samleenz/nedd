@@ -1,6 +1,6 @@
 # z2o tests ---------------------------------------------------------------
 
-test_that("Inputs are of the correct type", {
+test_that("z2o inputs are of the correct type", {
   # do things
   expect_error(
     z2o("cat", incZero = TRUE),
@@ -44,4 +44,33 @@ test_that("Input is a character vector of length > 0", {
     getDrugScore(input_good),
     NA
   )
+})
+
+
+# rankTable tests ---------------------------------------------------------
+
+df <- data.frame(
+  n = letters[1:11],
+  x = c(sample(10), 11),
+  y = c(sample(10), 11),
+  z = c(sample(10), 11),
+  stringsAsFactors = FALSE
+)
+
+test_that("rankTable inputs are of the correct type", {
+  # do things
+  expect_error(
+    rankTable(df),
+    "All non-label rows of x must be numeric"
+  )
+  expect_error(
+    rankTable(df, 12),
+    "nameCol must be a column name of x or NULL"
+  )
+
+})
+
+test_that("rankTable with `prod` gives the expected answer", {
+  rT <- rankTable(df, "n", aggFUN = prod)
+  expect_equal(which.max(rT$aggRank), 11)
 })

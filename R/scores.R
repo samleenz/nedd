@@ -102,3 +102,104 @@ getDrugScore <- function(v) {
   return(scores$druggability)
 
 }
+
+#' rankTable
+#'
+#' Given a data.frame with numerical scores return the rank table. Scores are
+#' converted to ranks and then aggregated using \code{aggFUN}
+#'
+#' @param x a data.frame with numerical scores to be ranked
+#' @param nameCol the column name containing row labels, or NULL if no labels.
+#'   Default = NULL
+#' @param aggFUN the function used to aggregate ranks, see details. Default =
+#'   geometric mean
+#' @param ties.method how tied ranks should be dealt with. See
+#'   \code{\link[matrixStats]{colRanks}}
+#'
+#' @details If \code{nameCol} is used to specify a column this will be held
+#'   aside when ranks are calculated then re-added before the rank table is
+#'   returned
+#'
+#' @return a data.frame with the same shape as the input. Each column is
+#'   trasformed to ranks (max value gets max rank) and then each row aggregated
+#'   under \code{aggRank} using \code{aggFUN}
+#' @export
+#'
+#' @examples
+rankTable <- function(
+  x, nameCol = NULL, aggFUN = geometricMean, ties.method = "min"){
+  # check nameCol
+  if(! (is.null(nameCol) || nameCol %in% colnames(x))){
+  # if(! (nameCol %in% colnames(x) | is.null(nameCol))){
+    stop("nameCol must be a column name of x or NULL")
+  }
+  # set aside name column
+  if(! is.null(nameCol)){
+    rowLabel <- x[[nameCol]]
+    x <- x[, ! colnames(x) == nameCol]
+  }
+
+  # continue checks
+  if(! all(apply(x, 2, is.numeric))){
+    stop("All non-label rows of x must be numeric")
+  }
+  if(! is.function(aggFUN)){
+    stop("aggFun must be a function")
+  }
+
+  # message(paste("Using", match.call(aggFUN)[2], "to aggregate ranks"))
+
+  # main
+
+  colLabel <- colnames(x)
+
+  ## generate ranks
+  x_rank <- matrixStats::colRanks(
+    as.matrix(x),
+    ties.method = ties.method,
+    preserveShape = TRUE
+    )
+
+  colnames(x_rank) <- colLabel
+
+  ## aggreagate ranks
+  aggRank <- apply(
+    x_rank,
+    1,
+    aggFUN
+  )
+
+  x_rank <- cbind(
+    x_rank,
+    aggRank = aggRank
+  )
+
+  if(! is.null(nameCol)){
+    x_rank <- data.frame(
+      rowLabel,
+      x_rank,
+      stringsAsFactors = FALSE
+    )
+    colnames(x_rank)[1] <- nameCol
+  } else {
+    x_rank <- as.data.frame(
+      x_rank
+    )
+  }
+
+  return(x_rank)
+
+  }
+
+#' geometricMean
+#'
+#' Calculate geometric mean. This is an internal for `rankTable` as such
+#' there is no testing. it will break if `any(x < 1 | is.na(x))`
+#'
+#' @param x numeric vector where all `x > 0`
+#'
+#' @return
+#'
+geometricMean <- function(x){
+  exp((mean(log(x))))
+}
