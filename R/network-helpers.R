@@ -8,6 +8,8 @@
 #' @param norm Whether to normalise the scores to between 0 and 1
 #' @param named are graph vertices named? If true F-pocket drug score will be included
 #'   in the table
+#' @param weights passed through to igraph functions for betweeness, closeness, and eigen centrality.
+#'   See \code{\link[igraph]{betweenness}} for details
 #'
 #' @return A data.frame with four or five columns: \code{c(degree, betweeness, closeness, eigen_centrality, maybe(drug_score))}.
 #'   For details on what each of these represent see each of the respective \code{igraph} functions.
@@ -21,7 +23,7 @@
 #' grph <- igraph::barabasi.game(30, directed = FALSE)
 #' igraph::V(grph)$name <- c(letters, LETTERS[1:4])
 #' netStats(grph)
-netStats <- function(g, norm = FALSE, named = NULL){
+netStats <- function(g, norm = FALSE, named = NULL, weights = NULL){
   # checks
 
   # check g is an igraph object
@@ -51,9 +53,9 @@ netStats <- function(g, norm = FALSE, named = NULL){
   # body
   tab <- data.frame(
     "degree" = igraph::degree(g, normalized = norm),
-    "betweenness" = igraph::betweenness(g, normalized = norm),
-    "closeness" = igraph::closeness(g, normalized = norm),
-    "eigen_centrality" = igraph::eigen_centrality(g)$vector
+    "betweenness" = igraph::betweenness(g, normalized = norm, weights = weights),
+    "closeness" = igraph::closeness(g, normalized = norm, weights = weights),
+    "eigen_centrality" = igraph::eigen_centrality(g, weights = weights)$vector
   )
 
   if(isTRUE(named)){

@@ -4,7 +4,7 @@
 \alias{netStats}
 \title{Network statistics}
 \usage{
-netStats(g, norm = FALSE, named = NULL)
+netStats(g, norm = FALSE, named = NULL, weights = NULL)
 }
 \arguments{
 \item{g}{the igraph graph you want to analyse}
@@ -13,6 +13,9 @@ netStats(g, norm = FALSE, named = NULL)
 
 \item{named}{are graph vertices named? If true F-pocket drug score will be included
 in the table}
+
+\item{weights}{passed through to igraph functions for betweeness, closeness, and eigen centrality.
+See \code{\link[igraph]{betweenness}} for details}
 }
 \value{
 A data.frame with four or five columns: \code{c(degree, betweeness, closeness, eigen_centrality, maybe(drug_score))}.
