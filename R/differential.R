@@ -8,6 +8,9 @@
 #'
 #' @param g1 a node weighted igraph network
 #' @param g2 a node weighted igraph network
+#' @param name1 deafult 'weight', the name of the node attribute to be used for g1
+#' @param name2 deafult 'weight', the name of the node attribute to be used for g2
+#' @param nameOut deafult 'weight', the name of the node attribute to be used for the otuput graph
 #'
 #' @return a network where the node weights reprsent the difference in node weights from the two input networks.
 #' @export
@@ -32,9 +35,9 @@ diff_n <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight
   }
 
 
+  gOut <- g1
   nOut <- n1 - n2
 
-  gOut <- g1
   igraph::vertex_attr(gOut, nameOut) <- nOut
 
   return(gOut)
@@ -45,18 +48,39 @@ diff_n <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight
 #' Preferential node weighting
 #'
 #' Set of differential network methods taken from O. Basha et al., Bioinformatics (2020).
-#' \code{pref_n} calculate the preferential expression of a node as described by
+#' \code{pref_n} calculate the preferential expression of a node as described by  A. R. Sonawane et al., Cell Reports. 21, 1077–1088 (2017).
+#'
+#' The preferential score of a node is effectively the differential node weighting divided by the IQR of the score in g2
 
 #'
-#' @param x
+#' @param g1 a node weighted igraph network
+#' @param g2 a node weighted igraph network
+#' @param name1 deafult 'weight', the name of the node attribute to be used for g1
+#' @param name2 deafult 'weight', the name of the node attribute to be used for g2
+#' @param nameOut deafult 'weight', the name of the node attribute to be used for the otuput graph
 #'
 #' @return
 #' @export
 #'
 #' @examples
-pref_n <- function(x){
+pref_n <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight"){
 
+  # test that nodes and edges of g1 and g2 are the same
+  if(! igraph::identical_graphs(
+    strip_attr(g1),
+    strip_attr(g2)
+  )) {
+    stop("Input graphs must have the same nodes and edges")
+  }
 
+  # get the diff_n score
+  gDiff <- diff_n(g1, g2, name1 = name1, name2 = name2)
+
+  gOut <- g1
+  nOut <-  igraph::vertex_attr(gDiff, "weight") / IQR(igraph::vertex_attr(g2, name2))
+  igraph::vertex_attr(gOut, nameOut) <- nOut
+
+  return(gOut)
 }
 
 
@@ -64,14 +88,47 @@ pref_n <- function(x){
 #'
 #' Set of differential network methods taken from O. Basha et al., Bioinformatics (2020).
 #'
-#' @param x
+#' Computed as the sum of the preferential scores (pref_n's)of the interacting nodes.
+#'
+#' @param g1 a node weighted igraph network
+#' @param g2 a node weighted igraph network
+#' @param name1 deafult 'weight', the name of the node attribute to be used for g1
+#' @param name2 deafult 'weight', the name of the node attribute to be used for g2
+#' @param nameOut deafult 'weight', the name of the edge attribute to be used for the otuput graph
 #'
 #' @return
 #' @export
 #'
 #' @examples
-pref_i <- function(x){
+pref_i <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight"){
 
+  # test that nodes and edges of g1 and g2 are the same
+  if(! igraph::identical_graphs(
+    strip_attr(g1),
+    strip_attr(g2)
+  )) {
+    stop("Input graphs must have the same nodes and edges")
+  }
+
+  # check that an edge attribute called `nameOut` doesn't already exist in g1
+  if(nameOut %in% igraph::edge_attr_names(g1)){
+    warning(paste(nameOut, "is already an edge attribute, overwriting..."))
+  }
+
+  # get the preferential node scores
+  gPref <- pref_n(g1, g2, name1 = name1, name2 = name2)
+
+  # create a 2col where entries are vertex scores for each end of each edge in the graph
+  vertex_index <- ends(gPref, es = E(gPref))
+  vertex_pref <- apply(vertex_index, 2, function(x) V(gPref)$weight[x])
+
+  # get sum of vertex prefs per edge
+  edge_pref <- apply(vertex_pref, 1, sum)
+
+  gOut <- igraph::delete_vertex_attr(g1, name1)
+  igraph::edge_attr(gOut, nameOut) <- edge_pref
+
+  return(gOut)
 }
 
 
