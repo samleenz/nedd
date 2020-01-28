@@ -13,6 +13,16 @@ test_that("strip_attr works", {
 
 })
 
-# test_that("Input graphs are isomorphic"){
-#
-# }
+test_that("diff_n gives expected result", {
+  g <- igraph::barabasi.game(15, directed = F)
+  g1 <- g
+  g2<- g
+  vertex_attr(g1, "weight") <- sample(50, vcount(g))
+  vertex_attr(g2, "weight") <- sample(50, vcount(g))
+
+  gdiff <- nedd::diff_n(g1, g2)
+
+
+
+  expect_equal((V(g1)$weight - V(g2)$weight), V(nedd::diff_n(g1, g2))$weight)
+})
