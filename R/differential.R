@@ -20,7 +20,7 @@ diff_n <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight
     nedd::strip_attr(g1),
     nedd::strip_attr(g2)
   )) {
-    stop("input graphs must have the same nodes and edges")
+    stop("Input graphs must have the same nodes and edges")
   }
 
   n1 <- igraph::vertex_attr(g1, name1)
@@ -28,7 +28,7 @@ diff_n <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight
 
   # test that weights are numeric
   if(! is.numeric(c(n1, n2))){
-    stop("node weights must be numeric")
+    stop("Node weights must be numeric")
   }
 
 
@@ -102,10 +102,12 @@ strip_attr <- function(g){
 
   gOut <- g
   for(name in igraph::vertex_attr_names(gOut)){
+    message(paste("Removing", name, "from vertices"))
     gOut <- igraph::delete_vertex_attr(gOut, name)
   }
 
   for(name in igraph::edge_attr_names(gOut)){
+    message(paste("Removing", name, "from edges"))
     gOut <- igraph::delete_edge_attr(gOut, name)
   }
 
