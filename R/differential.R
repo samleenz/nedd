@@ -17,8 +17,8 @@ diff_n <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight
 
   # test that nodes and edges of g1 and g2 are the same
   if(! igraph::identical_graphs(
-    nedd::strip_vertex_attr(g1),
-    nedd::strip_vertex_attr(g2)
+    nedd::strip_attr(g1),
+    nedd::strip_attr(g2)
   )) {
     stop("input graphs must have the same nodes and edges")
   }
