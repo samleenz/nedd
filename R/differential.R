@@ -26,8 +26,14 @@ diff_n <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight
     stop("Input graphs must have the same nodes and edges")
   }
 
+
   n1 <- igraph::vertex_attr(g1, name1)
   n2 <- igraph::vertex_attr(g2, name2)
+
+  # test that weights do not contain NAs
+  if(any(is.na(c(n1, n2)))){
+    stop("Input weights cannot contain NAs")
+  }
 
   # test that weights are numeric
   if(! is.numeric(c(n1, n2))){
@@ -73,6 +79,17 @@ pref_n <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight
     stop("Input graphs must have the same nodes and edges")
   }
 
+  # test that weights do not contain NAs
+  if(any(is.na(c( igraph::vertex_attr(g1, name1),  igraph::vertex_attr(g2, name2))))){
+    stop("Input weights cannot contain NAs")
+  }
+
+  # test that weights are numeric
+  if(! is.numeric(c( igraph::vertex_attr(g1, name1),  igraph::vertex_attr(g2, name2)))){
+    stop("Node weights must be numeric")
+  }
+
+
   # get the diff_n score
   gDiff <- diff_n(g1, g2, name1 = name1, name2 = name2)
 
@@ -110,6 +127,16 @@ pref_i <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight
     stop("Input graphs must have the same nodes and edges")
   }
 
+  # test that weights do not contain NAs
+  if(any(is.na(c( igraph::vertex_attr(g1, name1),  igraph::vertex_attr(g2, name2))))){
+    stop("Input weights cannot contain NAs")
+  }
+
+  # test that weights are numeric
+  if(! is.numeric(c( igraph::vertex_attr(g1, name1),  igraph::vertex_attr(g2, name2)))){
+    stop("Node weights must be numeric")
+  }
+
   # check that an edge attribute called `nameOut` doesn't already exist in g1
   if(nameOut %in% igraph::edge_attr_names(g1)){
     warning(paste(nameOut, "is already an edge attribute, overwriting..."))
@@ -139,7 +166,11 @@ pref_i <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight
 #' \code{diff_i} implements equations 4 and 5 from the *diff_i* method as proposed by Basha et al. (2020).
 #' As opposed to calculating edge weights as the prodct of log 2 expression (eq. 3) edge weights will be provided as a precalculated input.
 #'
-#' @param x
+#' @param g1 an edge weighted igraph network
+#' @param g2 an edge weighted igraph network
+#' @param name1 deafult 'weight', the name of the edge attribute to be used for g1
+#' @param name2 deafult 'weight', the name of the edge attribute to be used for g2
+#' @param nameOut deafult 'weight', the name of the edge attribute to be used for the otuput graph
 #'
 #' @return
 #' @export
@@ -155,6 +186,16 @@ diff_i <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight
     stop("Input graphs must have the same nodes and edges")
   }
 
+  # test that weights do not contain NAs
+  if(any(is.na(c( igraph::edge_attr(g1, name1),  igraph::edge_attr(g2, name2))))){
+    stop("Input weights cannot contain NAs")
+  }
+
+  # test that weights are numeric
+  if(! is.numeric(c( igraph::edge_attr(g1, name1),  igraph::edge_attr(g2, name2)))){
+    stop("Input weights must be numeric")
+  }
+
   # check if an edge attribute called `nameOut` already exists in g1
   if(nameOut %in% igraph::edge_attr_names(g1)){
     warning(paste(nameOut, "is already an edge attribute, overwriting..."))
@@ -168,7 +209,7 @@ diff_i <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight
   # get diff of normalised edge weights
   edge_diff <- e1_norm - e2_norm
 
-  gOut <- igraph::delete_vertex_attr(g1, name1)
+  gOut <- igraph::delete_edge_attr(g1, name1)
   igraph::edge_attr(gOut, nameOut) <- edge_diff
 
   return(gOut)
