@@ -4,11 +4,24 @@
 \alias{diff_i}
 \title{Differential interaction weighting}
 \usage{
-diff_i(x)
+diff_i(g1, g2, name1 = "weight", name2 = "weight",
+  nameOut = "weight")
 }
 \arguments{
-\item{x}{}
+\item{g1}{an edge weighted igraph network}
+
+\item{g2}{an edge weighted igraph network}
+
+\item{name1}{deafult 'weight', the name of the edge attribute to be used for g1}
+
+\item{name2}{deafult 'weight', the name of the edge attribute to be used for g2}
+
+\item{nameOut}{deafult 'weight', the name of the edge attribute to be used for the otuput graph}
 }
 \description{
 Set of differential network methods taken from O. Basha et al., Bioinformatics (2020).
+}
+\details{
+\code{diff_i} implements equations 4 and 5 from the *diff_i* method as proposed by Basha et al. (2020).
+As opposed to calculating edge weights as the prodct of log 2 expression (eq. 3) edge weights will be provided as a precalculated input.
 }
