@@ -136,14 +136,42 @@ pref_i <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight
 #'
 #' Set of differential network methods taken from O. Basha et al., Bioinformatics (2020).
 #'
+#' \code{diff_i} implements equations 4 and 5 from the *diff_i* method as proposed by Basha et al. (2020).
+#' As opposed to calculating edge weights as the prodct of log 2 expression (eq. 3) edge weights will be provided as a precalculated input.
+#'
 #' @param x
 #'
 #' @return
 #' @export
 #'
 #' @examples
-diff_i <- function(x){
+diff_i <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight"){
 
+  # test that nodes and edges of g1 and g2 are the same
+  if(! igraph::identical_graphs(
+    strip_attr(g1),
+    strip_attr(g2)
+  )) {
+    stop("Input graphs must have the same nodes and edges")
+  }
+
+  # check if an edge attribute called `nameOut` already exists in g1
+  if(nameOut %in% igraph::edge_attr_names(g1)){
+    warning(paste(nameOut, "is already an edge attribute, overwriting..."))
+  }
+
+  # create normalised (x/max(x)) vectors of edge weights
+  normMax <- function(x) x/max(x)
+  e1_norm <- normMax(igraph::edge_attr(g1, name1))
+  e2_norm <- normMax(igraph::edge_attr(g2, name2))
+
+  # get diff of normalised edge weights
+  edge_diff <- e1_norm - e2_norm
+
+  gOut <- igraph::delete_vertex_attr(g1, name1)
+  igraph::edge_attr(gOut, nameOut) <- edge_diff
+
+  return(gOut)
 }
 
 #' Strip graph attributes
