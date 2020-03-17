@@ -4,12 +4,14 @@
 \name{huri_graph}
 \alias{huri_graph}
 \title{Human reference interactome version 3.0}
-\format{A data frame with 53940 rows and 10 variables:
+\format{
+A data frame with 53940 rows and 10 variables:
 \describe{
   \item{price}{price, in US dollars}
   \item{carat}{weight of the diamond, in carats}
   ...
-}}
+}
+}
 \source{
 \url{http://interactome.baderlab.org/} for further details details
 }

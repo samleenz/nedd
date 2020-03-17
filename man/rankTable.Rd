@@ -4,8 +4,7 @@
 \alias{rankTable}
 \title{rankTable}
 \usage{
-rankTable(x, nameCol = NULL, aggFUN = geometricMean,
-  ties.method = "min")
+rankTable(x, nameCol = NULL, aggFUN = geometricMean, ties.method = "min")
 }
 \arguments{
 \item{x}{a data.frame with numerical scores to be ranked}

@@ -18,3 +18,11 @@ An igraph object
 Given an igraph graph and a set of nodes, return the induced subgraph
   with self and multiple edges removed
 }
+\examples{
+grph <- igraph::barabasi.game(30, directed = FALSE)
+igraph::V(grph)$name <- c(letters, LETTERS[1:4])
+
+subnet_g <- getSubnet(grph, letters[1:4])
+
+plot(subnet_g)
+}

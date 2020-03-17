@@ -18,3 +18,17 @@ an igraph object
 \description{
 Given an igraph, g, return the largest connected subgraph.
 }
+\examples{
+grph1 <- igraph::barabasi.game(26, directed = FALSE)
+grph2 <- igraph::barabasi.game(20, directed = FALSE)
+
+
+igraph::V(grph1)$name <- letters
+igraph::V(grph2)$name <- LETTERS[1:20]
+
+grph <- igraph::graph.union(grph1, grph2)
+
+ plot(grph)
+
+ plot(getLCS(grph))
+}

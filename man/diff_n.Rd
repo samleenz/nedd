@@ -4,8 +4,7 @@
 \alias{diff_n}
 \title{Differential node weighting}
 \usage{
-diff_n(g1, g2, name1 = "weight", name2 = "weight",
-  nameOut = "weight")
+diff_n(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight")
 }
 \arguments{
 \item{g1}{a node weighted igraph network}

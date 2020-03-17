@@ -4,8 +4,7 @@
 \alias{pref_n}
 \title{Preferential node weighting}
 \usage{
-pref_n(g1, g2, name1 = "weight", name2 = "weight",
-  nameOut = "weight")
+pref_n(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight")
 }
 \arguments{
 \item{g1}{a node weighted igraph network}
@@ -17,6 +16,9 @@ pref_n(g1, g2, name1 = "weight", name2 = "weight",
 \item{name2}{deafult 'weight', the name of the node attribute to be used for g2}
 
 \item{nameOut}{deafult 'weight', the name of the node attribute to be used for the otuput graph}
+}
+\value{
+
 }
 \description{
 Set of differential network methods taken from O. Basha et al., Bioinformatics (2020).

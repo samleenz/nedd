@@ -83,6 +83,11 @@ netStats <- function(g, norm = FALSE, named = NULL, weights = NULL){
 #' @export
 #'
 #' @examples
+#' grph <- igraph::barabasi.game(30, directed = FALSE)
+#' igraph::V(grph)$name <- c(letters, LETTERS[1:4])
+#'
+#' igraph::V(grph)$color <- makeContCol(grph)
+#' plot(grph)
 makeContCol <- function(
   g, nStatFunc = igraph::degree, pal =  grDevices::colorRampPalette(viridisLite::viridis(5)), scale = FALSE
 ){
@@ -117,6 +122,12 @@ makeContCol <- function(
 #' @export
 #'
 #' @examples
+#' grph <- igraph::barabasi.game(30, directed = FALSE)
+#' igraph::V(grph)$name <- c(letters, LETTERS[1:4])
+#'
+#' subnet_g <- getSubnet(grph, letters[1:4])
+#'
+#' plot(subnet_g)
 getSubnet <- function(g, v){
   if(! igraph::is.igraph(g)){
     stop("g must be an igraph graph object")
@@ -145,6 +156,18 @@ getSubnet <- function(g, v){
 #' @export
 #'
 #' @examples
+#' grph1 <- igraph::barabasi.game(26, directed = FALSE)
+#' grph2 <- igraph::barabasi.game(20, directed = FALSE)
+#'
+#'
+#' igraph::V(grph1)$name <- letters
+#' igraph::V(grph2)$name <- LETTERS[1:20]
+#'
+#' grph <- igraph::graph.union(grph1, grph2)
+#'
+#'  plot(grph)
+#'
+#'  plot(getLCS(grph))
 getLCS <- function(g, simplify_g = F){
 
   if(! igraph::is.igraph(g)){
@@ -191,6 +214,8 @@ getLCS <- function(g, simplify_g = F){
 #' @export
 #'
 #' @examples
+#'
+#'
 v2e <- function(g, method, w = NULL){
   if(is.null(w)){
     w <- igraph::V(g)$weight

@@ -4,9 +4,12 @@
 \alias{makeContCol}
 \title{colourGraphStat}
 \usage{
-makeContCol(g, nStatFunc = igraph::degree,
+makeContCol(
+  g,
+  nStatFunc = igraph::degree,
   pal = grDevices::colorRampPalette(viridisLite::viridis(5)),
-  scale = FALSE)
+  scale = FALSE
+)
 }
 \arguments{
 \item{g}{the igraph graph you want to analyse}
@@ -24,4 +27,11 @@ a set of colour codes to be assigned to V(g)$colour
 }
 \description{
 Given a graph
+}
+\examples{
+grph <- igraph::barabasi.game(30, directed = FALSE)
+igraph::V(grph)$name <- c(letters, LETTERS[1:4])
+
+igraph::V(grph)$color <- makeContCol(grph)
+plot(grph)
 }

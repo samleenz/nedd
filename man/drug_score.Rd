@@ -4,10 +4,12 @@
 \name{drug_score}
 \alias{drug_score}
 \title{drug potential scores}
-\format{\describe{
+\format{
+\describe{
   \item{name}{uniprotswissprot}
   \item{druggability}{Fpocket}
-}}
+}
+}
 \usage{
 drug_score
 }
