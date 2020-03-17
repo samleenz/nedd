@@ -5,12 +5,7 @@
 \alias{huri_graph}
 \title{Human reference interactome version 3.0}
 \format{
-A data frame with 53940 rows and 10 variables:
-\describe{
-  \item{price}{price, in US dollars}
-  \item{carat}{weight of the diamond, in carats}
-  ...
-}
+An igraph object with 8010 vertices and 50568 edges
 }
 \source{
 \url{http://interactome.baderlab.org/} for further details details

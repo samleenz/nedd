@@ -29,3 +29,7 @@ Different approaches to transform weights are:
   \item{\code{directed} -- blah}
 }
 }
+\examples{
+
+
+}

@@ -5,12 +5,7 @@
 \alias{STRING_graph}
 \title{The STRING PPI}
 \format{
-A data frame with 53940 rows and 10 variables:
-\describe{
-  \item{price}{price, in US dollars}
-  \item{carat}{weight of the diamond, in carats}
-  ...
-}
+An igraph object with 12089 vertices and 86383 edges
 }
 \source{
 \url{https://string-db.org/} for details
@@ -20,6 +15,6 @@ STRING_graph
 }
 \description{
 This PPI is based on experimentally validated interactions withiin the STRING database.
-Only interactions with a score > 400 (high-confidence) are included
+Only interactions with a score > 400 (high-confidence) are included.
 }
 \keyword{datasets}

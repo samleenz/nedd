@@ -5,9 +5,10 @@
 \alias{drug_score}
 \title{drug potential scores}
 \format{
+A dataframe with 15781 rows and two columns:
 \describe{
   \item{name}{uniprotswissprot}
-  \item{druggability}{Fpocket}
+  \item{druggability}{Fpocket drug score (0,1)}
 }
 }
 \usage{
