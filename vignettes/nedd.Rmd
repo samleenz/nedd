@@ -94,14 +94,24 @@ igraph:::V(g)[c("C", "A", "T")]
 
 #### Edge analysis
 
+Vertices and edges can have attributes added to them, in effect these are *i* length vectors where *i* is `vcount(g)` or `ecount(g)` respectively. Common attributed include `c("name", "weight", "colour")`
+
 ```{r}
+
+g <- set_edge_attr(g, "weight", value = sample(5, ecount(g), replace = TRUE))
+
+E(g)$weight
 
 ```
 
 
 #### Graph analysis
 
+Find and colour all cliques within a graph 
+
 ```{r}
+
+graph_clique <- igraph::cluster_optimal(g)
 
 ```
 
@@ -169,5 +179,13 @@ plot(g,
      asp = 0,
      layout = l
      )
+
+```
+
+### Prize collecting steiner forests
+
+The price collecitn gsteiner forest algorithm allows the joint analysis of node and edge weights to find optimal subgraphs under a single objective function. The `PCSF` package implements this in R and the package documentation does a good job of describing the method.
+
+```{r}
 
 ```
