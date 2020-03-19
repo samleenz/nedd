@@ -14,6 +14,7 @@ An igraph object with 15756 vertices and 174414 edges:
 ascher_graph
 }
 \description{
-A PPI: give some details about what the interactions represent here.
+A PPI made from combining multiple online interaction networks to make a meta-graph of public interaction data.
+Edges are supported by a range of different evidence types
 }
 \keyword{datasets}
