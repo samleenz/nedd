@@ -8,9 +8,9 @@
 #'
 #' @param g1 a node weighted igraph network
 #' @param g2 a node weighted igraph network
-#' @param name1 deafult 'weight', the name of the node attribute to be used for g1
-#' @param name2 deafult 'weight', the name of the node attribute to be used for g2
-#' @param nameOut deafult 'weight', the name of the node attribute to be used for the otuput graph
+#' @param name1 default 'weight', the name of the node attribute to be used for g1
+#' @param name2 default 'weight', the name of the node attribute to be used for g2
+#' @param nameOut default 'weight', the name of the node attribute to be used for the otuput graph
 #'
 #' @return a network where the node weights reprsent the difference in node weights from the two input networks.
 #' @export
@@ -61,9 +61,9 @@ diff_n <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight
 #'
 #' @param g1 a node weighted igraph network
 #' @param g2 a node weighted igraph network
-#' @param name1 deafult 'weight', the name of the node attribute to be used for g1
-#' @param name2 deafult 'weight', the name of the node attribute to be used for g2
-#' @param nameOut deafult 'weight', the name of the node attribute to be used for the otuput graph
+#' @param name1 default 'weight', the name of the node attribute to be used for g1
+#' @param name2 default 'weight', the name of the node attribute to be used for g2
+#' @param nameOut default 'weight', the name of the node attribute to be used for the otuput graph
 #'
 #' @return
 #' @export
@@ -109,9 +109,9 @@ pref_n <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight
 #'
 #' @param g1 a node weighted igraph network
 #' @param g2 a node weighted igraph network
-#' @param name1 deafult 'weight', the name of the node attribute to be used for g1
-#' @param name2 deafult 'weight', the name of the node attribute to be used for g2
-#' @param nameOut deafult 'weight', the name of the edge attribute to be used for the otuput graph
+#' @param name1 default 'weight', the name of the node attribute to be used for g1
+#' @param name2 default 'weight', the name of the node attribute to be used for g2
+#' @param nameOut default 'weight', the name of the edge attribute to be used for the otuput graph
 #'
 #' @return
 #' @export
@@ -168,9 +168,9 @@ pref_i <- function(g1, g2, name1 = "weight", name2 = "weight", nameOut = "weight
 #'
 #' @param g1 an edge weighted igraph network
 #' @param g2 an edge weighted igraph network
-#' @param name1 deafult 'weight', the name of the edge attribute to be used for g1
-#' @param name2 deafult 'weight', the name of the edge attribute to be used for g2
-#' @param nameOut deafult 'weight', the name of the edge attribute to be used for the otuput graph
+#' @param name1 default 'weight', the name of the edge attribute to be used for g1
+#' @param name2 default 'weight', the name of the edge attribute to be used for g2
+#' @param nameOut default 'weight', the name of the edge attribute to be used for the otuput graph
 #'
 #' @return
 #' @export
