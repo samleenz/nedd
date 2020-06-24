@@ -67,6 +67,25 @@ uniprot
 
 Sometines there is not a one to one mapping between naming standards. In this case the best option is to sort by `input_number`, then filter the table so there is one output per input number using `dplyr::distinct(input_number, .keep_all = TRUE)`. A `dplyr::{left,right}_join()` can then be used to drop entries in the input table that did not have a match in the target namespace. When converting from gene to protein mappings this will often occur for non-protein coding genes (rRNA, lncRNA, miRNA, pseudo-genes).
 
+### Gene sets
+
+THe package `msigdbr` provides a database of the MSigDB genesets for multiple species. These are good for gene-set enrichment testing.
+
+Here I get the Notch signalling hallmark and convert the hgnc symbols to uniprot protein IDs. We will see this set of proteins again when looking at how PCSF works. 
+
+```{r}
+library(msigdbr)
+
+notchSig <- msigdbr(category = "H") %>%
+  dplyr::filter(gs_name == "HALLMARK_NOTCH_SIGNALING") %>% dplyr::pull(gene_symbol) %>%
+  gprofiler2::gconvert(target = "UNIPROTSWISSPROT") %>%
+  dplyr::arrange(input_number) %>%
+  dplyr::distinct(input_number, .keep_all = TRUE) %>%
+  dplyr::pull(target)
+
+```
+
+
 ### Basic network analysis
 
 `igraph` is the standard `R` library for analysis of network objects. The majority of straightforward analyses can be compelted with functions in this pacakge and it offers pretty powerful visualisations. The function names can be somewhat cryptic so this site is an invaluable resource https://igraph.org/r/doc/
@@ -182,10 +201,21 @@ plot(g,
 
 ```
 
+
+
 ### Prize collecting steiner forests
 
-The price collecitn gsteiner forest algorithm allows the joint analysis of node and edge weights to find optimal subgraphs under a single objective function. The `PCSF` package implements this in R and the package documentation does a good job of describing the method.
+The prize collecitng steiner forest algorithm allows the joint analysis of node and edge weights to find optimal subgraphs under a single objective function. The `PCSF` package implements this in R and the package documentation does a good job of describing the method. The idea of PCSF is to find a set of trees within a graph that maximise the total node weight included in the trees will minimise the sum of the edge costs included. We will use the ascher graph as our background. While edge costs should have some relevant meaning for this example I will set all edge costs to random numbers in the range (0.1,0.5)
+
+I will set the score of all proteins in the notch signalling geneset to 1.
 
 ```{r}
+library(PCSF)
+
+cost_graph <- set_edge_attr(ascher_graph, "weight", value = runif(ecount(ascher_graph), 0.1, 0.5))
+
+prizes <- setNames(rep(1, length(notchSig)), notchSig)
+
+pcsf_resutlts <- PCSF(cost)
 
 ```
