@@ -4,13 +4,13 @@
 [![Lifecycle: questioning](https://img.shields.io/badge/lifecycle-questioning-blue.svg)](https://www.tidyverse.org/lifecycle/#questioning)
 <!-- badges: end -->
 
-`nedd` exists to ensure our network analyses are consistent between projects. Will see a public release? One day, perhaps.
+`nedd`: Tools for network drug discovery.
 
+This package is not currently maintained, but log any issues if need be and I will do my best to assist 😊
 
 ## Installation
 
 ```r
-## NOTE: haven't actually tested if this works yet
 library(devtools)
-install_gitlab("samleenz/nedd", host = "gitlab.svi.edu.au")
+install_github("samleenz/nedd")
 ```
